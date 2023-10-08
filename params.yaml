@@ -1,0 +1,62 @@
+training:
+  name_checkpoint: 'teste_efficient_lr001'
+  dir_checkpoint: '/home/lumalfa/Efficient_Transformers/experiments'
+  num_epochs: 256
+  resume: #'/home/lumalfa/Efficient_Transformers/experiments/teste_efficient_lr001/epoch2_recall_fake1.0_recall_real0.0_precision_fake1.0_precision_real0.0.pt'
+  efficient_net: 0
+  patience: 5
+  loss: 'torch.nn.BCEWithLogitsLoss(pos_weight=torch.tensor([1.2]))'
+  optimizer: 'torch.optim.SGD(model.parameters(), lr=0.001, weight_decay=0.0000001)'
+  scheduler: 'torch.optim.lr_scheduler.StepLR(optimizer, step_size=15, gamma=0.1)'
+  threshold: 0.5
+
+dataset_config:
+  train_dir: '/mnt/d/DFDC Projeto/datasets/cropped_faces/dataset/train'
+  val_dir: '/mnt/d/DFDC Projeto/datasets/cropped_faces/dataset/val'
+  test_dir: '/mnt/d/DFDC Projeto/datasets/cropped_faces/dataset/test'
+  labels_dataframe: '/mnt/d/DFDC Projeto/datasets/metadata/metadata.csv'
+  rebalancing_fake: 0.33
+  rebalancing_real: 1
+  frames-per-video: 30 # Equidistant frames
+  train_transform_function: 'create_train_transforms(224)'
+  val_transform_function: 'create_val_transform(224)'
+  max_videos: -1
+  workers: 2
+  batch_size: 2
+  
+model:
+  image-size: 224
+  patch-size: 7
+  num-classes: 1
+  dim: 1024
+  depth: 6
+  dim-head: 64
+  heads: 8
+  mlp-dim: 2048
+  emb-dim: 32
+  dropout: 0.15
+  emb-dropout: 0.15
+  
+model_cross_efficient:
+  image-size: 224
+  num-classes: 1
+  depth: 4              # number of multi-scale encoding blocks
+  sm-dim: 192            # high res dimension
+  sm-patch-size: 7      # high res patch size (should be smaller than lg-patch-size)
+  sm-enc-depth: 2        # high res depth
+  sm-enc-dim-head: 64        
+  sm-enc-heads: 8        # high res heads
+  sm-enc-mlp-dim: 2048   # high res feedforward dimension
+  lg-dim: 384            # low res dimension
+  lg-patch-size: 56      # low res patch size
+  lg-enc-depth: 3        # low res depth
+  lg-enc-dim-head: 64    
+  lg-enc-heads: 8        # low res heads
+  lg-enc-mlp-dim: 2048   # low res feedforward dimensions
+  cross-attn-depth: 2    # cross attention rounds
+  cross-attn-dim-head: 64    
+  cross-attn-heads: 8    # cross attention heads
+  lg-channels: 24
+  sm-channels: 1280
+  dropout: 0.15
+  emb-dropout: 0.15

@@ -63,16 +63,16 @@ def get_method_from_name(video):
             return method
 
 def get_method(video, data_path):
-    methods = os.listdir(os.path.join(data_path, "manipulated_sequences"))
-    methods.extend(os.listdir(os.path.join(data_path, "original_sequences")))
-    methods.append("DFDC")
-    methods.append("Original")
-    selected_method = ""
-    for method in methods:
-        if method in video:
-            selected_method = method
-            break
-    return selected_method
+    #methods = os.listdir(os.path.join(data_path, "manipulated_sequences"))
+    #methods.extend(os.listdir(os.path.join(data_path, "original_sequences")))
+    #methods.append("DFDC")
+    #methods.append("Original")
+    #selected_method = ""
+    #for method in methods:
+    #    if method in video:
+    #        selected_method = method
+    #        break
+    return "DFDC"
 
 def get_original_with_fakes(root_dir):
     pairs = []

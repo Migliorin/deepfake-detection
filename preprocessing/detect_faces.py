@@ -15,11 +15,11 @@ import argparse
 
 
 def process_videos(videos, detector_cls: Type[VideoFaceDetector], selected_dataset, opt):
-    detector = face_detector.__dict__[detector_cls](device="cuda:0")
+    detector = face_detector.__dict__[detector_cls](device="cpu")
 
     dataset = VideoDataset(videos)
     
-    loader = DataLoader(dataset, shuffle=False, num_workers=opt.processes, batch_size=1, collate_fn=lambda x: x)
+    loader = DataLoader(dataset, shuffle=False, num_workers=int(opt.processes), batch_size=1, collate_fn=lambda x: x)
     missed_videos = []
     for item in tqdm(loader): 
         result = {}
